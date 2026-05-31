@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dhea Arimbi Almalita — DevOps Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --bg-soft: #11162a;
+    --bg-card: #151b32;
+    --line: #233049;
+    --line-soft: #1b2440;
+    --text: #e6eaf3;
+    --text-mid: #9aa6c4;
+    --text-dim: #5f6d90;
+    --accent: #4d9fff;
+    --accent-soft: #1d3a63;
+    --green: #3ddc97;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Space Grotesk', sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--line-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+    background-size: 48px 48px;
+    opacity: 0.4;
+    z-index: -1;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+  }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 24px; }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(10,14,26,0.82);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+  .nav-logo { font-family: var(--mono); font-size: 15px; font-weight: 500; color: var(--text); letter-spacing: -0.02em; }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 26px; align-items: center; }
+  .nav-links a { color: var(--text-mid); text-decoration: none; font-size: 14px; transition: color .2s; }
+  .nav-links a:hover { color: var(--text); }
+  .lang-toggle {
+    display: flex; border: 1px solid var(--line); border-radius: 7px; overflow: hidden;
+    font-family: var(--mono); font-size: 12px;
+  }
+  .lang-toggle button {
+    background: transparent; color: var(--text-dim); border: none; padding: 5px 11px;
+    cursor: pointer; transition: all .2s; font-family: var(--mono);
+  }
+  .lang-toggle button.active { background: var(--accent); color: #04132b; font-weight: 500; }
+  @media (max-width: 680px) { .nav-links a:not(.lang-wrap) { display: none; } }
+
+  /* HERO */
+  header { padding: 90px 0 70px; position: relative; }
+  .hero-tag { font-family: var(--mono); font-size: 13px; color: var(--accent); margin-bottom: 18px; letter-spacing: 0.04em; }
+  .hero-tag::before { content: "> "; }
+  h1 { font-size: clamp(38px, 7vw, 66px); font-weight: 700; line-height: 1.02; letter-spacing: -0.03em; margin-bottom: 20px; }
+  .hero-sub { font-size: clamp(17px, 2.4vw, 21px); color: var(--text-mid); max-width: 620px; margin-bottom: 32px; }
+  .hero-links { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px; padding: 11px 20px;
+    border-radius: 9px; font-size: 14px; font-weight: 500; text-decoration: none;
+    transition: all .2s; font-family: var(--mono);
+  }
+  .btn-primary { background: var(--accent); color: #04132b; }
+  .btn-primary:hover { background: #6fb2ff; transform: translateY(-2px); }
+  .btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--line); }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+  /* SECTION */
+  section { padding: 56px 0; border-top: 1px solid var(--line-soft); }
+  .sec-label { font-family: var(--mono); font-size: 13px; color: var(--accent); margin-bottom: 8px; letter-spacing: 0.04em; }
+  .sec-label::before { content: "// "; color: var(--text-dim); }
+  .sec-title { font-size: clamp(26px, 4vw, 36px); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 32px; }
+
+  /* ABOUT */
+  .about-grid { display: grid; grid-template-columns: 200px 1fr; gap: 40px; align-items: start; }
+  .photo-slot {
+    width: 200px; height: 200px; border-radius: 14px; border: 1px dashed var(--line);
+    background: var(--bg-soft); display: flex; flex-direction: column; align-items: center;
+    justify-content: center; color: var(--text-dim); font-family: var(--mono); font-size: 12px; gap: 8px;
+  }
+  .photo-slot svg { opacity: 0.4; }
+  .about-text p { color: var(--text-mid); font-size: 16px; margin-bottom: 14px; }
+  .about-text strong { color: var(--text); font-weight: 500; }
+  @media (max-width: 680px) { .about-grid { grid-template-columns: 1fr; } .photo-slot { width: 100%; max-width: 200px; } }
+
+  /* SKILLS */
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+  .skill-cat {
+    background: var(--bg-card); border: 1px solid var(--line-soft); border-radius: 12px; padding: 18px 20px;
+  }
+  .skill-cat h3 { font-size: 14px; font-weight: 500; color: var(--accent); margin-bottom: 12px; font-family: var(--mono); }
+  .chips { display: flex; flex-wrap: wrap; gap: 7px; }
+  .chip {
+    font-size: 13px; padding: 4px 11px; border-radius: 6px;
+    background: var(--accent-soft); color: #a9cdff; border: 1px solid #25457a;
+  }
+
+  /* EXPERIENCE */
+  .timeline { position: relative; padding-left: 28px; }
+  .timeline::before { content: ""; position: absolute; left: 5px; top: 6px; bottom: 6px; width: 1px; background: var(--line); }
+  .tl-item { position: relative; margin-bottom: 34px; }
+  .tl-item:last-child { margin-bottom: 0; }
+  .tl-item::before {
+    content: ""; position: absolute; left: -27px; top: 6px; width: 11px; height: 11px;
+    border-radius: 50%; background: var(--bg); border: 2px solid var(--accent);
+  }
+  .tl-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; margin-bottom: 4px; }
+  .tl-role { font-size: 17px; font-weight: 500; color: var(--text); }
+  .tl-meta { font-family: var(--mono); font-size: 12px; color: var(--text-dim); }
+  .tl-comp { font-size: 14px; color: var(--accent); margin-bottom: 10px; }
+  .tl-item ul { list-style: none; }
+  .tl-item li { color: var(--text-mid); font-size: 15px; margin-bottom: 6px; padding-left: 18px; position: relative; }
+  .tl-item li::before { content: "▹"; position: absolute; left: 0; color: var(--accent); }
+
+  /* PROJECTS */
+  .proj-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+  .proj-card {
+    background: var(--bg-card); border: 1px solid var(--line-soft); border-radius: 13px; padding: 22px;
+    transition: all .25s; display: flex; flex-direction: column;
+  }
+  .proj-card:hover { transform: translateY(-4px); border-color: var(--accent); }
+  .proj-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .proj-icon { color: var(--accent); }
+  .proj-links { display: flex; gap: 12px; }
+  .proj-links a { color: var(--text-dim); transition: color .2s; }
+  .proj-links a:hover { color: var(--accent); }
+  .proj-card h3 { font-size: 19px; font-weight: 500; margin-bottom: 8px; }
+  .proj-card p { color: var(--text-mid); font-size: 14px; flex-grow: 1; margin-bottom: 14px; }
+  .proj-stack { display: flex; flex-wrap: wrap; gap: 6px; }
+  .proj-stack span { font-family: var(--mono); font-size: 11px; color: var(--text-dim); }
+  .proj-stack span:not(:last-child)::after { content: " ·"; }
+
+  /* CERTS */
+  .cert-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 10px; }
+  .cert {
+    background: var(--bg-soft); border: 1px solid var(--line-soft); border-radius: 9px;
+    padding: 13px 15px; display: flex; gap: 11px; align-items: flex-start;
+  }
+  .cert svg { color: var(--accent); flex-shrink: 0; margin-top: 2px; }
+  .cert-name { font-size: 14px; font-weight: 500; line-height: 1.3; }
+  .cert-meta { font-family: var(--mono); font-size: 11px; color: var(--text-dim); margin-top: 3px; }
+
+  /* CONTACT */
+  .contact { text-align: center; padding: 70px 0 40px; }
+  .contact .sec-label { display: block; }
+  .contact h2 { font-size: clamp(30px, 5vw, 46px); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 16px; }
+  .contact p { color: var(--text-mid); font-size: 17px; max-width: 480px; margin: 0 auto 28px; }
+  .contact-links { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+  footer { text-align: center; padding: 30px 0 40px; border-top: 1px solid var(--line-soft); }
+  footer p { font-family: var(--mono); font-size: 12px; color: var(--text-dim); }
+
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.show { opacity: 1; transform: none; }
+
+  [data-en] { display: none; }
+  html[lang="en"] [data-id] { display: none; }
+  html[lang="en"] [data-en] { display: revert; }
+  html[lang="en"] .chips [data-en], html[lang="en"] .hero-links [data-en],
+  html[lang="en"] .contact-links [data-en] { display: inline-flex; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-inner">
+    <div class="nav-logo">dhea<span>.</span>dev</div>
+    <div class="nav-links">
+      <a href="#about"><span data-id>Tentang</span><span data-en>About</span></a>
+      <a href="#skills">Skills</a>
+      <a href="#experience"><span data-id>Pengalaman</span><span data-en>Experience</span></a>
+      <a href="#projects"><span data-id>Proyek</span><span data-en>Projects</span></a>
+      <span class="lang-wrap">
+        <span class="lang-toggle">
+          <button id="btn-id" class="active" onclick="setLang('id')">ID</button>
+          <button id="btn-en" onclick="setLang('en')">EN</button>
+        </span>
+      </span>
+    </div>
+  </div>
+</nav>
+
+<header>
+  <div class="wrap">
+    <div class="hero-tag">DevOps Engineer · Cloud · Linux</div>
+    <h1>Dhea Arimbi<br>Almalita</h1>
+    <p class="hero-sub">
+      <span data-id>Membangun dan mengotomasi infrastruktur — dari CI/CD pipeline, container orchestration, hingga cloud deployment.</span>
+      <span data-en>Building and automating infrastructure — from CI/CD pipelines and container orchestration to cloud deployment.</span>
+    </p>
+    <div class="hero-links">
+      <a class="btn btn-primary" href="#projects">
+        <span data-id>Lihat Proyek</span><span data-en>View Projects</span>
+      </a>
+      <a class="btn btn-ghost" href="https://github.com/deadyiss" target="_blank">GitHub</a>
+      <a class="btn btn-ghost" href="https://linkedin.com/in/dhea-arimbi-almalita" target="_blank">LinkedIn</a>
+    </div>
+  </div>
+</header>
+
+<section id="about">
+  <div class="wrap reveal">
+    <div class="sec-label"><span data-id>Tentang</span><span data-en>About</span></div>
+    <h2 class="sec-title"><span data-id>Tentang Saya</span><span data-en>About Me</span></h2>
+    <div class="about-grid">
+      <div class="photo-slot">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>
+        <span>foto profil</span>
+      </div>
+      <div class="about-text">
+        <p data-id>
+          Mahasiswa <strong>Teknik Informatika</strong> di UNISKA MAB dengan latar belakang hands-on di infrastruktur Linux dan DevOps. Berpengalaman dengan <strong>Kubernetes, Docker, Ansible, OpenStack, Ceph, GitLab CI/CD,</strong> dan ELK Stack melalui program magang terstruktur.
+        </p>
+        <p data-id>
+          Meraih <strong>Juara 2 LKS Cloud Computing</strong> tingkat Provinsi Kalimantan Selatan 2023. Aktif membangun project di bidang DevOps, WebGIS, dan AI/RAG. Tertarik mendalami DevSecOps setelah menyelesaikan bootcamp keamanan aplikasi web.
+        </p>
+        <p data-en>
+          <strong>Informatics Engineering</strong> student at UNISKA MAB with hands-on background in Linux infrastructure and DevOps. Experienced with <strong>Kubernetes, Docker, Ansible, OpenStack, Ceph, GitLab CI/CD,</strong> and ELK Stack through a structured internship program.
+        </p>
+        <p data-en>
+          <strong>2nd Place at LKS Cloud Computing</strong> Provincial Competition, South Kalimantan 2023. Actively building projects in DevOps, WebGIS, and AI/RAG. Interested in DevSecOps after completing a web application security bootcamp.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap reveal">
+    <div class="sec-label">Skills</div>
+    <h2 class="sec-title"><span data-id>Keahlian Teknis</span><span data-en>Technical Skills</span></h2>
+    <div class="skills-grid">
+      <div class="skill-cat">
+        <h3>Infrastructure &amp; Cloud</h3>
+        <div class="chips"><span class="chip">Linux</span><span class="chip">OpenStack</span><span class="chip">Ceph</span><span class="chip">AWS</span><span class="chip">KVM</span></div>
+      </div>
+      <div class="skill-cat">
+        <h3>Container &amp; Orchestration</h3>
+        <div class="chips"><span class="chip">Docker</span><span class="chip">Kubernetes</span></div>
+      </div>
+      <div class="skill-cat">
+        <h3>CI/CD &amp; Automation</h3>
+        <div class="chips"><span class="chip">GitLab CI/CD</span><span class="chip">GitHub Actions</span><span class="chip">Ansible</span></div>
+      </div>
+      <div class="skill-cat">
+        <h3>Monitoring &amp; Logging</h3>
+        <div class="chips"><span class="chip">Prometheus</span><span class="chip">Grafana</span><span class="chip">ELK Stack</span></div>
+      </div>
+      <div class="skill-cat">
+        <h3>Networking</h3>
+        <div class="chips"><span class="chip">MikroTik</span><span class="chip">Nginx</span><span class="chip">Cloudflare</span><span class="chip">TCP/IP</span></div>
+      </div>
+      <div class="skill-cat">
+        <h3>Programming</h3>
+        <div class="chips"><span class="chip">Python</span><span class="chip">Bash</span><span class="chip">PHP</span><span class="chip">JavaScript</span></div>
+      </div>
+      <div class="skill-cat">
+        <h3>Security</h3>
+        <div class="chips"><span class="chip">OWASP Top 10</span><span class="chip">SQL Injection</span><span class="chip">XSS</span><span class="chip">ZAP Scanner</span></div>
+      </div>
+      <div class="skill-cat">
+        <h3>Tools</h3>
+        <div class="chips"><span class="chip">Git</span><span class="chip">PM2</span><span class="chip">GitBook</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap reveal">
+    <div class="sec-label"><span data-id>Pengalaman</span><span data-en>Experience</span></div>
+    <h2 class="sec-title"><span data-id>Pengalaman</span><span data-en>Experience</span></h2>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-head">
+          <span class="tl-role">DevOps Engineer (Freelance)</span>
+          <span class="tl-meta">2024 · Remote</span>
+        </div>
+        <div class="tl-comp">PT Tepak Kreasi Digital</div>
+        <ul data-id>
+          <li>Setup VPS Ubuntu 22.04 untuk deployment Next.js; konfigurasi Nginx reverse proxy + SSL/TLS via Let's Encrypt &amp; Cloudflare.</li>
+          <li>Membangun GitHub Actions CI/CD pipeline untuk automated deployment via SSH; process management dengan PM2 &amp; GitHub Secrets.</li>
+          <li>Security hardening: ZAP Scanner + HTTP security headers (HSTS, CSP, X-Content-Type-Options).</li>
+        </ul>
+        <ul data-en>
+          <li>Set up Ubuntu 22.04 VPS for Next.js deployment; configured Nginx reverse proxy + SSL/TLS via Let's Encrypt &amp; Cloudflare.</li>
+          <li>Built GitHub Actions CI/CD pipeline for automated deployment via SSH; process management with PM2 &amp; GitHub Secrets.</li>
+          <li>Security hardening: ZAP Scanner + HTTP security headers (HSTS, CSP, X-Content-Type-Options).</li>
+        </ul>
+      </div>
+      <div class="tl-item">
+        <div class="tl-head">
+          <span class="tl-role">Student Intern — DevOps &amp; Cloud Infrastructure</span>
+          <span class="tl-meta">Jan–Apr 2024 · Remote</span>
+        </div>
+        <div class="tl-comp">PT Boer Technology (Btech)</div>
+        <ul data-id>
+          <li>Menyelesaikan 9 modul pelatihan terstruktur: Linux Admin, Docker, Kubernetes, GitLab, Ceph, OpenStack, ELK Stack, Prometheus, Ansible.</li>
+          <li>Praktik langsung setup, konfigurasi, dan troubleshooting di environment lab; membuat dokumentasi teknis di GitBook per modul.</li>
+        </ul>
+        <ul data-en>
+          <li>Completed 9 structured training modules: Linux Admin, Docker, Kubernetes, GitLab, Ceph, OpenStack, ELK Stack, Prometheus, Ansible.</li>
+          <li>Hands-on lab practice including setup, configuration, and troubleshooting; produced technical documentation on GitBook per module.</li>
+        </ul>
+      </div>
+      <div class="tl-item">
+        <div class="tl-head">
+          <span class="tl-role">Admin Marketing</span>
+          <span class="tl-meta">Apr–Aug 2024 · Banjarbaru</span>
+        </div>
+        <div class="tl-comp">MC Computer</div>
+        <ul data-id><li>Mengelola administrasi dan dokumentasi operasional divisi marketing.</li></ul>
+        <ul data-en><li>Managed administration and operational documentation for the marketing division.</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap reveal">
+    <div class="sec-label"><span data-id>Proyek</span><span data-en>Projects</span></div>
+    <h2 class="sec-title"><span data-id>Proyek Pilihan</span><span data-en>Selected Projects</span></h2>
+    <div class="proj-grid">
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <span class="proj-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 8h10M7 12h10M7 16h6"/></svg></span>
+        </div>
+        <h3>VPS Freelance</h3>
+        <p data-id>Setup &amp; otomasi VPS produksi untuk klien: reverse proxy, SSL, CI/CD pipeline, dan security hardening.</p>
+        <p data-en>Production VPS setup &amp; automation for a client: reverse proxy, SSL, CI/CD pipeline, and security hardening.</p>
+        <div class="proj-stack"><span>Ubuntu</span><span>Nginx</span><span>GitHub Actions</span><span>PM2</span></div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <span class="proj-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg></span>
+          <div class="proj-links">
+            <a href="https://deadyiss.github.io/geokafe-bjb" target="_blank" aria-label="Live demo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
+          </div>
+        </div>
+        <h3>GeoKafe BJB</h3>
+        <p data-id>WebGIS interaktif pemetaan cafe Banjarbaru &amp; Martapura: marker clustering, heatmap, filter real-time.</p>
+        <p data-en>Interactive WebGIS mapping cafes in Banjarbaru &amp; Martapura: marker clustering, heatmap, real-time filters.</p>
+        <div class="proj-stack"><span>Leaflet.js</span><span>Chart.js</span><span>Tailwind</span></div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <span class="proj-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
+          <div class="proj-links">
+            <a href="https://github.com/deadyiss/privaquery" target="_blank" aria-label="GitHub repo"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2 0 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0C17 4.6 18 4.9 18 4.9c.6 1.6.2 2.8 0 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.7-5.5 6 .4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3z"/></svg></a>
+          </div>
+        </div>
+        <h3>PrivaQuery</h3>
+        <p data-id>Sistem RAG tanya-jawab dokumen dengan deteksi konflik &amp; verifikasi halusinasi AI.</p>
+        <p data-en>RAG-based document Q&amp;A system with conflict detection &amp; AI hallucination verification.</p>
+        <div class="proj-stack"><span>Python</span><span>Flask</span><span>Groq API</span><span>SQLite</span></div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <span class="proj-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></span>
+          <div class="proj-links">
+            <a href="https://github.com/deadyiss/dashboard-simawa" target="_blank" aria-label="GitHub repo"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2 0 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0C17 4.6 18 4.9 18 4.9c.6 1.6.2 2.8 0 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.7-5.5 6 .4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3z"/></svg></a>
+          </div>
+        </div>
+        <h3>SiMawa</h3>
+        <p data-id>Sistem informasi mahasiswa: CRUD, export PDF/CSV, cetak kartu mahasiswa, dark mode.</p>
+        <p data-en>Student information system: CRUD, PDF/CSV export, student card printing, dark mode.</p>
+        <div class="proj-stack"><span>Laravel 12</span><span>SQLite</span><span>PHP</span></div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <span class="proj-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></span>
+          <div class="proj-links">
+            <a href="https://dashboardbarang.infinityfree.me/" target="_blank" aria-label="Live demo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
+          </div>
+        </div>
+        <h3>Dashboard Barang</h3>
+        <p data-id>Aplikasi inventaris barang: CRUD, cetak PDF, dengan automated FTP deploy via GitHub Actions.</p>
+        <p data-en>Inventory management app: CRUD, PDF printing, with automated FTP deploy via GitHub Actions.</p>
+        <div class="proj-stack"><span>PHP</span><span>MySQL</span><span>InfinityFree</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="certs">
+  <div class="wrap reveal">
+    <div class="sec-label"><span data-id>Sertifikasi</span><span data-en>Certifications</span></div>
+    <h2 class="sec-title"><span data-id>Sertifikasi</span><span data-en>Certifications</span></h2>
+    <div class="cert-grid" id="cert-grid"></div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap reveal">
+    <div class="sec-label"><span data-id>Kontak</span><span data-en>Contact</span></div>
+    <h2><span data-id>Mari Terhubung</span><span data-en>Let's Connect</span></h2>
+    <p>
+      <span data-id>Terbuka untuk kesempatan magang atau kolaborasi di bidang DevOps, cloud, dan infrastruktur.</span>
+      <span data-en>Open to internship opportunities or collaboration in DevOps, cloud, and infrastructure.</span>
+    </p>
+    <div class="contact-links">
+      <a class="btn btn-primary" href="mailto:arimbidhea3@gmail.com">Email</a>
+      <a class="btn btn-ghost" href="https://github.com/deadyiss" target="_blank">GitHub</a>
+      <a class="btn btn-ghost" href="https://linkedin.com/in/dhea-arimbi-almalita" target="_blank">LinkedIn</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Built with HTML · CSS · JS — © 2026 Dhea Arimbi Almalita</p>
+  </div>
+</footer>
+
+<script>
+  const certs = [
+    ["Cybersecurity for Web Application Bootcamp", "Nusacodes · 2026"],
+    ["MTCNA — MikroTik Certified Network Associate", "MikroTik · 2023"],
+    ["IT Specialist — Networking", "Certiport · 2023"],
+    ["AWS Academy — Cloud Foundations", "AWS Academy · 2023"],
+    ["Cloud Practitioner Essentials", "Dicoding · 2024"],
+    ["Linux System Administration", "ADINUSA · 2024"],
+    ["Docker Fundamental", "ADINUSA · 2023"],
+    ["Kubernetes / Container Orchestration", "ADINUSA · 2024"],
+    ["GitLab Administration", "ADINUSA · 2024"],
+    ["Ceph Administration", "ADINUSA · 2024"],
+    ["OpenStack Administration Multi Node", "ADINUSA · 2024"],
+    ["Getting Started with ELK Stack", "ADINUSA · 2024"],
+    ["Monitoring with Prometheus", "ADINUSA · 2024"],
+    ["Automation with Ansible", "ADINUSA · 2023"],
+  ];
+  const ICON = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="6"/><path d="M8.2 13.5L7 22l5-3 5 3-1.2-8.5"/></svg>';
+  document.getElementById("cert-grid").innerHTML = certs.map(c =>
+    `<div class="cert">${ICON}<div><div class="cert-name">${c[0]}</div><div class="cert-meta">${c[1]}</div></div></div>`
+  ).join("");
+
+  function setLang(lang) {
+    document.documentElement.lang = lang;
+    document.getElementById("btn-id").classList.toggle("active", lang === "id");
+    document.getElementById("btn-en").classList.toggle("active", lang === "en");
+  }
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("show"); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
